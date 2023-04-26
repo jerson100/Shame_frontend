@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { Pin as PinModel } from "../../../types";
+import { Pin as PinModel, PinProps } from "../../../types";
 import MasonryLayout from "react-masonry-css";
 import Pin from "../Pin";
 
-interface MasonryProps {
+interface MasonryProps extends Pick<PinProps, "savePin" | "deletePin"> {
   pins: PinModel[];
 }
 
@@ -16,14 +16,14 @@ const breakPoints = {
   500: 1,
 };
 
-const Masonry: FC<MasonryProps> = ({ pins }) => {
+const Masonry: FC<MasonryProps> = ({ pins, savePin, deletePin }) => {
   return (
     <MasonryLayout
       className="flex animate-slide-fwd"
       breakpointCols={breakPoints}
     >
       {pins.map((pin) => (
-        <Pin key={pin._id} {...pin} />
+        <Pin key={pin._id} {...pin} savePin={savePin} deletePin={deletePin} />
       ))}
     </MasonryLayout>
   );

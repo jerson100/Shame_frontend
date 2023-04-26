@@ -27,7 +27,7 @@ export interface Pin extends PostUs {
     };
   };
   comments: Comment[];
-  save: Save[];
+  save: Save[] | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -41,4 +41,9 @@ export interface Save extends PostUs {}
 
 export interface Comment extends Pick<PostUs, "postedBy"> {
   comment: string;
+}
+
+export interface PinProps extends Omit<Pin, "_type" | "comments"> {
+  savePin: (pinId: string, userId: string) => Promise<Save | null>;
+  deletePin: (pinId: string) => Promise<boolean>;
 }

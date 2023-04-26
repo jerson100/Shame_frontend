@@ -1,4 +1,4 @@
-import { Pin } from "../types";
+import { Pin, Save } from "../types";
 import { sanityClient } from "../configs/sanity";
 import { v4 as uuid } from "uuid";
 
@@ -14,14 +14,14 @@ const findALL = async (signal?: AbortSignal): Promise<Pin[]> => {
         about,
         postedBy->{
           _id,
-          userName,
+          user,
           image
         },
         save[]{
           _key,
           postedBy->{
             _id,
-            userName,
+            user,
             image
           },
         },
@@ -41,25 +41,19 @@ const findALLByCategory = async (
             url
         }
     },
-    _id,
-    destination,
-    about,
-    category,
-    postedBy -> {
-        _id, user, image
-    },
-    comments[] -> {
-        _key,
-        postedBy -> {
+        _id,
+        destination,
+        about,
+        category,
+        postedBy->{
             _id, user, image
+        },
+        save[]{
+            _key,
+            postedBy->{
+                _id, user, image
+            }
         }
-    },
-    save[] -> {
-        _key,
-        postedBy -> {
-            _id, user, image
-        }
-    }
   }`;
   const s = signal ? { signal } : {};
   const response = await sanityClient.fetch(query, undefined, s);
@@ -80,7 +74,7 @@ const search = async (txt: string, signal?: AbortSignal): Promise<Pin[]> => {
       postedBy -> {
           _id, user, image
       },
-      save[] -> {
+      save[]{
           _key,
           postedBy -> {
               _id, user, image
@@ -92,7 +86,7 @@ const search = async (txt: string, signal?: AbortSignal): Promise<Pin[]> => {
   return response;
 };
 
-const save = async (pinId: string, userId: string): Promise<boolean> => {
+const save = async (pinId: string, userId: string): Promise<Save | null> => {
   try {
     const response = await sanityClient
       .patch(pinId)
@@ -109,16 +103,23 @@ const save = async (pinId: string, userId: string): Promise<boolean> => {
       ])
       .commit();
     console.log(response);
-    return true;
+    return {
+      userId: userId,
+      postedBy: {
+        _id: userId,
+        _type: "user",
+        user: "",
+        image: "",
+      },
+    };
   } catch (e) {
-    return false;
+    return null;
   }
 };
 
 const remove = async (pinId: string): Promise<boolean> => {
   try {
-    const response = await sanityClient.delete(pinId);
-    console.log(response);
+    await sanityClient.delete(pinId);
     return true;
   } catch (e) {
     return false;

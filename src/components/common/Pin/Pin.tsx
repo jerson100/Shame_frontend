@@ -1,5 +1,5 @@
 import { useState, memo } from "react";
-import { Pin as PinModel } from "../../../types";
+import { PinProps } from "../../../types";
 import { urlFor } from "../../../configs/sanity";
 import { motion } from "framer-motion";
 import { PinContainerVariants } from "./pin.variants";
@@ -14,7 +14,10 @@ const Pin = ({
   destination,
   image,
   postedBy,
-}: Omit<PinModel, "_type" | "comments" | "save">) => {
+  savePin,
+  save,
+  deletePin,
+}: PinProps) => {
   const [hover, setHover] = useState("exit");
   return (
     <div className="mb-2">
@@ -31,7 +34,15 @@ const Pin = ({
           src={urlFor(image).width(250).url()}
           alt={about}
         />
-        <PinContentHover urlImage={image?.asset?.url} />
+        <PinContentHover
+          deletePin={deletePin}
+          postedBy={postedBy}
+          urlImage={image?.asset?.url}
+          savePin={savePin}
+          _id={_id}
+          save={save}
+          destination={destination}
+        />
       </motion.div>
       <PinUserInformation
         image={postedBy.image}

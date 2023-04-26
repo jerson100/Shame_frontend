@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Pin } from "../types";
+import { Pin, Save } from "../types";
 import PinService from "../services/pin";
 
 export enum ModeFilterGetPins {
@@ -47,18 +47,39 @@ const useGetPins = ({
     };
   }, [searchText, mode]);
 
-  const savePing = useCallback(
-    async (pinId: string, userId: string): Promise<boolean> => {
-      return PinService.save(pinId, userId);
+  const savePin = useCallback(
+    async (pinId: string, userId: string): Promise<Save | null> => {
+      const saved = await PinService.save(pinId, userId);
+      if (saved) {
+        setPins((prevPins) => {
+          return prevPins.map((pin) => {
+            if (pin._id === pinId) {
+              console.log(pin.save, saved);
+              return {
+                ...pin,
+                save: pin.save ? [...pin.save, saved] : [saved],
+              };
+            }
+            return pin;
+          });
+        });
+      }
+      return saved;
     },
     []
   );
 
-  const deletePing = useCallback(async (pinId: string): Promise<boolean> => {
-    return PinService.remove(pinId);
+  const deletePin = useCallback(async (pinId: string): Promise<boolean> => {
+    const deletedPin = await PinService.remove(pinId);
+    if (deletedPin) {
+      setPins((prevPins) => {
+        return prevPins.filter((pin) => pin._id !== pinId);
+      });
+    }
+    return deletedPin;
   }, []);
 
-  return { pins, setPins, loading, error, savePing, deletePing };
+  return { pins, setPins, loading, error, savePin, deletePin };
 };
 
 export default useGetPins;
