@@ -13,7 +13,7 @@ const PrivateMainLayout = () => {
   }, []);
   if (loadingPrev) return <Loading />;
   return (
-    <div className="flex">
+    <div className="flex bg-zinc-50">
       <Sidebar
         handleShowSidebar={handleShowSidebar}
         showSidebar={showSidebar}

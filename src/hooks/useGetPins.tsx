@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Pin } from "../types";
 import PinService from "../services/pin";
 
@@ -46,7 +46,19 @@ const useGetPins = ({
       abortC.abort();
     };
   }, [searchText, mode]);
-  return { pins, setPins, loading, error };
+
+  const savePing = useCallback(
+    async (pinId: string, userId: string): Promise<boolean> => {
+      return PinService.save(pinId, userId);
+    },
+    []
+  );
+
+  const deletePing = useCallback(async (pinId: string): Promise<boolean> => {
+    return PinService.remove(pinId);
+  }, []);
+
+  return { pins, setPins, loading, error, savePing, deletePing };
 };
 
 export default useGetPins;

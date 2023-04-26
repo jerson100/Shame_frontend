@@ -1,5 +1,6 @@
 import { Pin } from "../types";
 import { sanityClient } from "../configs/sanity";
+import { v4 as uuid } from "uuid";
 
 const findALL = async (signal?: AbortSignal): Promise<Pin[]> => {
   const query = `*[_type == "pin"] | order(_createdAt desc) {
@@ -91,4 +92,37 @@ const search = async (txt: string, signal?: AbortSignal): Promise<Pin[]> => {
   return response;
 };
 
-export default { findALL, findALLByCategory, search };
+const save = async (pinId: string, userId: string): Promise<boolean> => {
+  try {
+    const response = await sanityClient
+      .patch(pinId)
+      .setIfMissing({ save: [] })
+      .insert("after", "save[-1]", [
+        {
+          _key: uuid(),
+          userId: userId,
+          postedBy: {
+            _type: "postedBy",
+            _ref: userId,
+          },
+        },
+      ])
+      .commit();
+    console.log(response);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const remove = async (pinId: string): Promise<boolean> => {
+  try {
+    const response = await sanityClient.delete(pinId);
+    console.log(response);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export default { findALL, findALLByCategory, search, save, remove };
