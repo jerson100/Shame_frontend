@@ -20,7 +20,7 @@ const Pin = ({
 }: PinProps) => {
   const [hover, setHover] = useState("exit");
   return (
-    <div className="mb-2">
+    <div className="m-2">
       <motion.div
         className="cursor-zoom-in overflow-hidden relative"
         initial="initial"

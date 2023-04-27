@@ -1,6 +1,7 @@
-import { Pin, Save } from "../types";
+import { CreatePinProps, EImageType, Pin, Save } from "../types";
 import { sanityClient } from "../configs/sanity";
 import { v4 as uuid } from "uuid";
+import { SanityImageAssetDocument } from "@sanity/client";
 
 const findALL = async (signal?: AbortSignal): Promise<Pin[]> => {
   const query = `*[_type == "pin"] | order(_createdAt desc) {
@@ -126,4 +127,28 @@ const remove = async (pinId: string): Promise<boolean> => {
   }
 };
 
-export default { findALL, findALLByCategory, search, save, remove };
+const uploadImage = async (
+  selectedFile: File,
+  type: EImageType,
+  name: string
+): Promise<SanityImageAssetDocument> => {
+  const document = await sanityClient.assets.upload("image", selectedFile, {
+    contentType: type,
+    filename: name,
+  });
+  return document;
+};
+
+const createPin = async (pin: CreatePinProps): Promise<void> => {
+  await sanityClient.create(pin);
+};
+
+export default {
+  findALL,
+  findALLByCategory,
+  search,
+  save,
+  remove,
+  uploadImage,
+  createPin,
+};

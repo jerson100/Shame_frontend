@@ -1,3 +1,7 @@
+import { categories } from "./configs/categories";
+
+export type CategoriesType = [{ name: string; image: string }];
+
 export interface User {
   _id: string;
   _type: "user";
@@ -26,10 +30,30 @@ export interface Pin extends PostUs {
       url: string;
     };
   };
-  comments: Comment[];
+  comments?: Comment[];
   save: Save[] | null;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreatePinProps {
+  _type: string;
+  title: string;
+  about: string;
+  destination: string;
+  image: {
+    _type: "image";
+    asset: {
+      _type: "reference";
+      _ref: string;
+    };
+  };
+  userId: string;
+  postedBy: {
+    _type: "postedBy";
+    _ref: string;
+  };
+  category: CategoryType;
 }
 
 interface PostUs {
@@ -47,3 +71,17 @@ export interface PinProps extends Omit<Pin, "_type" | "comments"> {
   savePin: (pinId: string, userId: string) => Promise<Save | null>;
   deletePin: (pinId: string) => Promise<boolean>;
 }
+
+export enum EImageType {
+  SVG = "image/svg",
+  PNG = "image/png",
+  JPEG = "image/jpeg",
+  JPG = "image/jpg",
+  GIF = "image/gif",
+  WEBP = "image/webp",
+  TIFF = "image/tiff",
+}
+
+export type ImageType = keyof typeof EImageType;
+
+export type CategoryType = (typeof categories)[number]["name"];

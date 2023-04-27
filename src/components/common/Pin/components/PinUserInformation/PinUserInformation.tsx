@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { User } from "../../../../../types";
 
@@ -10,7 +9,7 @@ const PinUserInformation = ({ image, user, _id }: Omit<User, "_type">) => {
         src={image}
         alt="user-profile"
       />
-      <p className="font-semibold capitalize overflow-hidden text-ellipsis whitespace-nowrap">
+      <p className="font-semibold capitalize overflow-hidden text-ellipsis whitespace-nowrap text-sm">
         {user}
       </p>
     </Link>
