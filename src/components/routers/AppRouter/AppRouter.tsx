@@ -8,6 +8,7 @@ import CategoryPage from "../../../pages/public/CategoryPage";
 import SearchPage from "../../../pages/public/SearchPage";
 import UserProfilePage from "../../../pages/public/UserProfilePage";
 import CreatePinPage from "../../../pages/public/CreatePinPage";
+import DetailPinPage from "../../../pages/public/DetailPinPage";
 
 const AppRouter = () => {
   return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
           <Route path="search" element={<SearchPage />} />
           <Route path="profile/:idUser" element={<UserProfilePage />} />
           <Route path="create-pin" element={<CreatePinPage />} />
+          <Route path="pins/:idPin" element={<DetailPinPage />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { PinContainerVariants } from "./pin.variants";
 import PinContentHover from "./components/PinContentHover";
 import PinUserInformation from "./components/PinUserInformation";
+import { useNavigate } from "react-router-dom";
 
 const Pin = ({
   _id,
@@ -19,6 +20,7 @@ const Pin = ({
   deletePin,
 }: PinProps) => {
   const [hover, setHover] = useState("exit");
+  const navigate = useNavigate();
   return (
     <div className="m-2">
       <motion.div
@@ -28,6 +30,7 @@ const Pin = ({
         variants={PinContainerVariants}
         onMouseEnter={() => setHover("hover")}
         onMouseLeave={() => setHover("exit")}
+        onClick={() => navigate(`/pins/${_id}`)}
       >
         <img
           className="rounded-lg w-full"

@@ -143,6 +143,39 @@ const createPin = async (pin: CreatePinProps): Promise<void> => {
   await sanityClient.create(pin);
 };
 
+const findMoreInfo = async (pinId: string): Promise<Pin | null> => {
+  const query = `*[_type == 'pin' && _id == '${pinId}']{
+        image{
+            asset->{
+                url
+            }
+        },
+        _id,
+        title,
+        destination,
+        category,
+        about,
+        postedBy -> {
+            _id, user, image
+        },
+        save[]{
+            _key,
+            postedBy -> {
+                _id, user, image
+            }
+        },
+        comments[]{
+            _key,
+            comment,
+            postedBy -> {
+                _id, user, image
+            }
+        }
+    }`;
+  const response = await sanityClient.fetch(query);
+  return response?.length > 0 ? response[0] : null;
+};
+
 export default {
   findALL,
   findALLByCategory,
@@ -151,4 +184,5 @@ export default {
   remove,
   uploadImage,
   createPin,
+  findMoreInfo,
 };
