@@ -18,7 +18,7 @@ const useGetPins = ({
   mode = ModeFilterGetPins.ALL,
 }: UseGetPinsProps) => {
   const [pins, setPins] = useState<Pin[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const abortC = new AbortController();
@@ -35,7 +35,6 @@ const useGetPins = ({
             : await PinService.findALLByCategory(searchText, abortC.signal);
         setPins(pines);
       } catch (e) {
-        console.log(e);
         setError("Ocurrió un error al obtener los pines");
       } finally {
         setLoading(false);

@@ -1,22 +1,18 @@
 import { useLocation } from "react-router-dom";
 import useGetPins, { ModeFilterGetPins } from "../../../hooks/useGetPins";
-import Masonry from "../../../components/common/Masonry/Masonry";
 import Spinner from "../../../components/common/Spinner";
+import PinsLayout from "../../../components/layouts/PinsLayout";
 
 const SearchPage = () => {
   const {
     state: { searchTerm },
   } = useLocation();
-  const { pins, loading } = useGetPins({
+  const { pins, loading, deletePin, savePin } = useGetPins({
     searchText: searchTerm || "",
     mode: ModeFilterGetPins.SEARCH,
   });
   if (loading) return <Spinner message="Cargando pines..." />;
-  return (
-    <div>
-      <Masonry pins={pins} />
-    </div>
-  );
+  return <PinsLayout pins={pins} savePin={savePin} deletePin={deletePin} />;
 };
 
 export default SearchPage;
