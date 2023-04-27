@@ -35,7 +35,7 @@ const Sidebar = ({ handleShowSidebar, showSidebar }: SidebarProps) => {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="fixed md:hidden bg-blackOverlay left-0 right-0 top-0 bottom-0 z-20"
+              className="fixed md:hidden bg-black bg-opacity-50 left-0 right-0 top-0 bottom-0 z-20"
               onClick={() => handleShowSidebar(false)}
             ></motion.div>
           )}

@@ -33,7 +33,8 @@ export const bgVariants: Variants = {
     },
   },
   animate: {
-    opacity: 0.4,
+    opacity: 1,
+    backdropFilter: "blur(5px)",
     display: "block",
     transition: {
       ease: "easeInOut",
