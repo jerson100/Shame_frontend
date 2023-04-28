@@ -65,6 +65,7 @@ export interface Save extends PostUs {}
 
 export interface Comment extends Pick<PostUs, "postedBy"> {
   comment: string;
+  _key: string;
 }
 
 export interface PinProps extends Omit<Pin, "_type" | "comments"> {

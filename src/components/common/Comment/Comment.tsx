@@ -11,7 +11,7 @@ const Comment = ({
       as,
       {},
       <article className="flex gap-2 items-center">
-        <Link to={`user-profile/${postedBy._id}`} className="cursor-pointer">
+        <Link to={`/profile/${postedBy._id}`} className="cursor-pointer">
           <img
             className="rounded-full object-cover w-10 h-10"
             src={postedBy.image}
@@ -20,10 +20,7 @@ const Comment = ({
         </Link>
         <div className="flex flex-col flex-grow">
           <p className="whitespace-nowrap overflow-hidden text-ellipsis font-bold">
-            <Link
-              className="cursor-pointer"
-              to={`user-profile/${postedBy._id}`}
-            >
+            <Link className="cursor-pointer" to={`/profile/${postedBy._id}`}>
               {postedBy.user}
             </Link>
           </p>

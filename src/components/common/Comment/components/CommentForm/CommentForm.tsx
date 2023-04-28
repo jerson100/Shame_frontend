@@ -1,16 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useAuthContext from "../../../../../hooks/useAuthContext";
+import { MessageLink } from "../../../Message";
 
 const CommentForm = () => {
   const { user } = useAuthContext();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+  if (!user)
+    return (
+      <MessageLink
+        message="Para poder realizar comentarios necesita iniciar sesión"
+        to="/login"
+      />
+    );
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex gap-2 justify-between">
-        <Link className="cursor-pointer" to={`user-profile/${user?._id}`}>
+        <Link className="cursor-pointer" to={`/profile/${user?._id}`}>
           <img
             className="rounded-full w-10 h-10"
             src={user?.image}

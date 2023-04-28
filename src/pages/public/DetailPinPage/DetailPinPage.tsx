@@ -4,7 +4,7 @@ import usePin from "../../../hooks/usePin";
 import { MdDownloadForOffline } from "react-icons/md";
 import Spinner from "../../../components/common/Spinner/Spinner";
 import { urlFor } from "../../../configs/sanity";
-import { CommentForm, CommentList } from "../../../components/common/Comment";
+import DetailComment from "./components/DetailComment/DetailComment";
 
 const DetailPinPage = () => {
   const { idPin } = useParams();
@@ -33,8 +33,8 @@ const DetailPinPage = () => {
           <p>El pin no existe</p>
         </div>
       ) : (
-        <article className="bg-white max-w-[1200px] mx-auto rounded-[32px] flex flex-col xl:flex-row">
-          <div className="flex justify-center items-center md:items-start flex-initial">
+        <article className="bg-white max-w-[1200px] mx-auto rounded-[32px] flex flex-col xl:flex-row w-full">
+          <div className="flex justify-center items-center md:items-start flex-initial flex-grow">
             <img
               className="rounded-t-3xl rounded-b-lg"
               src={pin?.image && urlFor(pin?.image).url()}
@@ -61,8 +61,8 @@ const DetailPinPage = () => {
               <p className="mt-3">{pin.about}</p>
             </div>
             <Link
-              to={`/user-profile/${pin?.postedBy._id}`}
-              className="flex gap-2 mb-5 items-center bg-white rounded-lg "
+              to={`/profile/${pin?.postedBy._id}`}
+              className="flex gap-2 mb-5 items-center bg-white rounded-lg"
             >
               <img
                 src={pin?.postedBy.image}
@@ -71,33 +71,7 @@ const DetailPinPage = () => {
               />
               <p className="font-bold">{pin?.postedBy.user}</p>
             </Link>
-            <div className="mb-5">
-              <CommentList
-                comments={[
-                  {
-                    comment: "Hola",
-                    postedBy: {
-                      _type: "user",
-                      _id: "1",
-                      user: "Jorge",
-                      image:
-                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                    },
-                  },
-                  {
-                    comment: "test",
-                    postedBy: {
-                      _type: "user",
-                      _id: "1",
-                      user: "Jorge",
-                      image:
-                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                    },
-                  },
-                ]}
-              />
-            </div>
-            <CommentForm />
+            <DetailComment comments={pin.comments} />
           </div>
         </article>
       )}
