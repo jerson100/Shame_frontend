@@ -10,7 +10,7 @@ const Comment = ({
     return createElement(
       as,
       {},
-      <article className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center">
         <Link to={`/profile/${postedBy._id}`} className="cursor-pointer">
           <img
             className="rounded-full object-cover w-10 h-10"
@@ -26,7 +26,7 @@ const Comment = ({
           </p>
           <p className="text-sm">{comment}</p>
         </div>
-      </article>
+      </div>
     );
   }, [comment, postedBy, as]);
   return <>{ElementContainer}</>;

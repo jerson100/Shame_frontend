@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Pin } from "../types";
+import { CreateCommentProps, Pin, User } from "../types";
 import PinService from "../services/pin";
 
 const usePin = (pinId: string) => {
@@ -18,11 +18,36 @@ const usePin = (pinId: string) => {
       setLoading(false);
     }
   }, [pinId]);
+
+  const addComment = useCallback(
+    async ({ user, pinId, comment }: CreateCommentProps) => {
+      if (pin) {
+        const response = await PinService.createComment({
+          pinId,
+          comment,
+          user,
+        });
+        if (response) {
+          setPin((prevP) => {
+            return (
+              prevP && {
+                ...prevP,
+                comments: [...(prevP.comments || []), response],
+              }
+            );
+          });
+        }
+      }
+    },
+    [pin]
+  );
+
   return {
     get,
     pin,
     loading,
     error,
+    addComment,
   };
 };
 

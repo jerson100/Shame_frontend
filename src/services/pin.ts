@@ -1,4 +1,12 @@
-import { CreatePinProps, EImageType, Pin, Save } from "../types";
+import {
+  Comment,
+  CreateCommentProps,
+  CreatePinProps,
+  EImageType,
+  Pin,
+  Save,
+  User,
+} from "../types";
 import { sanityClient } from "../configs/sanity";
 import { v4 as uuid } from "uuid";
 import { SanityImageAssetDocument } from "@sanity/client";
@@ -176,6 +184,32 @@ const findMoreInfo = async (pinId: string): Promise<Pin | null> => {
   return response?.length > 0 ? response[0] : null;
 };
 
+const createComment = async ({
+  pinId,
+  comment,
+  user,
+}: CreateCommentProps): Promise<Comment> => {
+  const newComment = {
+    comment,
+    _key: uuid(),
+    postedBy: { _type: "postedBy", _ref: user._id },
+  };
+  const c = await sanityClient
+    .patch(pinId)
+    .setIfMissing({ comments: [] })
+    .insert("after", "comments[-1]", [newComment])
+    .commit();
+  console.log(c);
+  return {
+    ...newComment,
+    postedBy: {
+      _id: user._id,
+      user: user.user,
+      image: user.image,
+    },
+  };
+};
+
 export default {
   findALL,
   findALLByCategory,
@@ -185,4 +219,5 @@ export default {
   uploadImage,
   createPin,
   findMoreInfo,
+  createComment,
 };

@@ -9,7 +9,13 @@ import DetailComment from "./components/DetailComment/DetailComment";
 const DetailPinPage = () => {
   const { idPin } = useParams();
   const [loading, setLoading] = React.useState(false);
-  const { pin, loading: loadingGetPin, get, error } = usePin(idPin || "");
+  const {
+    pin,
+    loading: loadingGetPin,
+    get,
+    error,
+    addComment,
+  } = usePin(idPin || "");
   useEffect(() => {
     setLoading(true);
     get()
@@ -41,7 +47,7 @@ const DetailPinPage = () => {
               alt="user-post"
             />
           </div>
-          <div className="w-full p-5 flex-1 xl:min-w-620">
+          <div className="w-full pt-5 pb-5 md:pl-5 md:pr-5 flex-1 xl:min-w-620">
             <div className="flex justify-between">
               <a
                 href={`${pin.image.asset.url}?dl=`}
@@ -55,7 +61,7 @@ const DetailPinPage = () => {
               </a>
             </div>
             <div className="mb-5">
-              <h1 className="text-4xl font-bold break-words mt-3">
+              <h1 className="text-3xl md:text-4xl font-bold break-words mt-3">
                 {pin.title}
               </h1>
               <p className="mt-3">{pin.about}</p>
@@ -71,7 +77,11 @@ const DetailPinPage = () => {
               />
               <p className="font-bold">{pin?.postedBy.user}</p>
             </Link>
-            <DetailComment comments={pin.comments} />
+            <DetailComment
+              comments={pin.comments}
+              addComment={addComment}
+              pinId={pin._id}
+            />
           </div>
         </article>
       )}

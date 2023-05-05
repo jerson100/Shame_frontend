@@ -4,7 +4,7 @@ export type CategoriesType = [{ name: string; image: string }];
 
 export interface User {
   _id: string;
-  _type: "user";
+  _type?: "user" | "postedBy";
   user: string;
   image: string;
 }
@@ -86,3 +86,9 @@ export enum EImageType {
 export type ImageType = keyof typeof EImageType;
 
 export type CategoryType = (typeof categories)[number]["name"];
+
+export interface CreateCommentProps {
+  pinId: string;
+  comment: string;
+  user: User;
+}
