@@ -4,7 +4,7 @@ import usePin from "../../../hooks/usePin";
 import { MdDownloadForOffline } from "react-icons/md";
 import Spinner from "../../../components/common/Spinner/Spinner";
 import { urlFor } from "../../../configs/sanity";
-import DetailComment from "./components/DetailComment/DetailComment";
+import DetailComment from "./components/DetailComment";
 
 const DetailPinPage = () => {
   const { idPin } = useParams();
