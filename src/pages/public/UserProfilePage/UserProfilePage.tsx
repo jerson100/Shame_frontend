@@ -5,6 +5,7 @@ import Masonry from "../../../components/common/Masonry/Masonry";
 import useGetPins from "../../../hooks/useGetPins";
 import Spinner from "../../../components/common/Spinner/Spinner";
 import useGetInfoUser from "../../../hooks/useGetInfoUser";
+import { Helmet } from "react-helmet";
 
 const activeBtnStyles =
   "bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none";
@@ -70,6 +71,35 @@ const UserProfilePage = () => {
 
   return (
     <div className="flex flex-col flex-grow gap-7">
+      <Helmet>
+        <title>{user.user} | Shame</title>
+        <meta name="description" content={`Perfil de ${user.user} en Shame`} />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Jerson Omar Ramírez Ortiz" />
+        <meta
+          name="keywords"
+          content={`${user.user}, Shame, pins, pinterest, react`}
+        />
+        <meta name="og:title" content={`${user.user} | Shame`} />
+        <meta
+          name="og:description"
+          content={`Perfil de ${user.user} en Shame`}
+        />
+        <meta name="og:type" content="website" />
+        <meta name="og:url" content="https://shame.com" />
+        <meta name="og:site_name" content="Shame" />
+        <meta name="og:image" content={user.image} />
+        <meta name="og:locale" content="es_ES" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@jerson100" />
+        <meta name="twitter:creator" content="@jerson100" />
+        <meta name="twitter:title" content={`${user.user} | Shame`} />
+        <meta
+          name="twitter:description"
+          content={`Perfil de ${user.user} en Shame`}
+        />
+        <meta name="twitter:image" content={user.image} />
+      </Helmet>
       <BannerProfile _id={user._id} user={user.user} image={user.image} />
       <div className="text-center">
         <button
