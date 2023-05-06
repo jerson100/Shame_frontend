@@ -1,6 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: rgba(158, 158, 157, 0.32);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(158, 158, 157, 0.32);
+    outline: rgba(158, 158, 157, 0.32) solid 1px;
+    border-radius: 5px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(158, 157, 157, 0.44);
+  }
+}
 
 body {
   font-family: "Lato", sans-serif;

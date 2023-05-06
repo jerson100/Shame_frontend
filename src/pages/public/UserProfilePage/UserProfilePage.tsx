@@ -70,11 +70,9 @@ const UserProfilePage = () => {
   }
 
   return (
-    <div className="">
-      <div className="mb-7">
-        <BannerProfile _id={user._id} user={user.user} image={user.image} />
-      </div>
-      <div className="text-center mb-7">
+    <div className="flex flex-col flex-grow gap-7">
+      <BannerProfile _id={user._id} user={user.user} image={user.image} />
+      <div className="text-center">
         <button
           type="button"
           onClick={handleClick}
@@ -94,8 +92,12 @@ const UserProfilePage = () => {
           Saved
         </button>
       </div>
-      <div>
-        <Masonry pins={pins} deletePin={deletePin} savePin={savePin} />
+      <div className="flex-grow flex flex-col">
+        {loadingGetPins ? (
+          <Spinner message="Loading pins" />
+        ) : (
+          <Masonry pins={pins} deletePin={deletePin} savePin={savePin} />
+        )}
       </div>
     </div>
   );

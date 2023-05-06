@@ -10,7 +10,7 @@ const BannerProfile = ({
   const imagebg = `https://source.unsplash.com/1600x800/?nature,water`;
   return (
     <div>
-      <div className="h-72 -m-4">
+      <div className="h-56 md:h-72 -m-4">
         <img
           src={imagebg}
           alt={"background"}
