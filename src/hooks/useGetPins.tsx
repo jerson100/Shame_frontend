@@ -2,21 +2,14 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { Pin, Save } from "../types";
 import PinService from "../services/pin";
 
-export enum ModeFilterGetPins {
-  ALL = "ALL",
-  CATEGORY = "CATEGORY",
-  SEARCH = "SEARCH",
+interface useGetPinsQueryProps {
+  searchText?: string;
+  category?: string;
+  idUser?: string;
+  saved?: boolean;
 }
 
-interface UseGetPinsProps {
-  searchText: string;
-  mode?: ModeFilterGetPins;
-}
-
-const useGetPins = ({
-  searchText,
-  mode = ModeFilterGetPins.ALL,
-}: UseGetPinsProps) => {
+const useGetPins = (query: useGetPinsQueryProps) => {
   const [pins, setPins] = useState<Pin[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<boolean>(false);
@@ -28,18 +21,10 @@ const useGetPins = ({
         setLoading(true);
         setError(false);
         setPins([]);
-        const pines =
-          mode === ModeFilterGetPins.ALL
-            ? await PinService.findALL(abortController.current?.signal)
-            : mode === ModeFilterGetPins.SEARCH
-            ? await PinService.search(
-                searchText,
-                abortController.current?.signal
-              )
-            : await PinService.findALLByCategory(
-                searchText,
-                abortController.current?.signal
-              );
+        const pines = await PinService.findALL(
+          query,
+          abortController.current?.signal
+        );
         setPins(pines);
       } catch (e) {
         setError(true);
@@ -51,7 +36,7 @@ const useGetPins = ({
     return () => {
       abortController.current?.abort();
     };
-  }, [searchText, mode]);
+  }, [query.category, query.searchText, query.idUser, query.saved]);
 
   const cancel = useCallback(() => {
     if (abortController.current) {

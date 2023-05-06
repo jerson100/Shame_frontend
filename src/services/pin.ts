@@ -11,8 +11,40 @@ import { sanityClient } from "../configs/sanity";
 import { v4 as uuid } from "uuid";
 import { SanityImageAssetDocument } from "@sanity/client";
 
-const findALL = async (signal?: AbortSignal): Promise<Pin[]> => {
-  const query = `*[_type == "pin"] | order(_createdAt desc) {
+interface useGetPinsQueryProps {
+  searchText?: string;
+  category?: string;
+  idUser?: string;
+  saved?: boolean;
+}
+
+const findALL = async (
+  query: useGetPinsQueryProps,
+  signal?: AbortSignal
+): Promise<Pin[]> => {
+  const { searchText, category, idUser, saved } = query;
+
+  const opstionsArray: string[] = [];
+  const _txt = searchText
+    ? `title match '${searchText}*' || about match '${searchText}*'`
+    : "";
+  const _c = category ? `category match '${category}*'` : "";
+  const _u =
+    saved && idUser
+      ? `'${idUser}' in save[].postedBy._ref`
+      : idUser
+      ? `postedBy._ref == '${idUser}'`
+      : "";
+
+  if (_txt) opstionsArray.push(_txt);
+  if (_c) opstionsArray.push(_c);
+  if (_u) opstionsArray.push(_u);
+
+  const _query = `*[_type == 'pin'${
+    opstionsArray.length > 0 ? `&& (${opstionsArray.join(" && ")})` : ""
+  }]`;
+
+  const full_query = `${_query}{
     image{
       asset->{
         url
@@ -36,62 +68,7 @@ const findALL = async (signal?: AbortSignal): Promise<Pin[]> => {
         },
       } `;
   const s = signal ? { signal } : {};
-  const response = await sanityClient.fetch(query, undefined, s);
-  return response;
-};
-
-const findALLByCategory = async (
-  txt: string,
-  signal?: AbortSignal
-): Promise<Pin[]> => {
-  const query = `*[_type == "pin" && category match '${txt}*']{
-    image{
-        asset->{
-            url
-        }
-    },
-        _id,
-        destination,
-        about,
-        category,
-        postedBy->{
-            _id, user, image
-        },
-        save[]{
-            _key,
-            postedBy->{
-                _id, user, image
-            }
-        }
-  }`;
-  const s = signal ? { signal } : {};
-  const response = await sanityClient.fetch(query, undefined, s);
-  return response;
-};
-
-const search = async (txt: string, signal?: AbortSignal): Promise<Pin[]> => {
-  const query = `*[_type == "pin" && (title match '${txt}*' || category match '${txt}*' || about match '${txt}*')]{
-      image{
-          asset->{
-              url
-          }
-      },
-      _id,
-      destination,
-      category,
-      about,
-      postedBy -> {
-          _id, user, image
-      },
-      save[]{
-          _key,
-          postedBy -> {
-              _id, user, image
-          }
-      }
-    }`;
-  const s = signal ? { signal } : {};
-  const response = await sanityClient.fetch(query, undefined, s);
+  const response = await sanityClient.fetch(full_query, undefined, s);
   return response;
 };
 
@@ -212,8 +189,6 @@ const createComment = async ({
 
 export default {
   findALL,
-  findALLByCategory,
-  search,
   save,
   remove,
   uploadImage,

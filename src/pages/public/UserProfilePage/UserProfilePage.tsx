@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import BannerProfile from "./components/BannerProfile/BannerProfile";
 import Masonry from "../../../components/common/Masonry/Masonry";
 import useGetPins from "../../../hooks/useGetPins";
-import { ModeFilterGetPins } from "../../../hooks/useGetPins";
 import Spinner from "../../../components/common/Spinner/Spinner";
 import useGetInfoUser from "../../../hooks/useGetInfoUser";
 
@@ -31,8 +30,8 @@ const UserProfilePage = () => {
     cancel: cancelGetPins,
     error: errorGetPins,
   } = useGetPins({
-    searchText: text,
-    mode: ModeFilterGetPins.ALL,
+    idUser: idUser,
+    saved: text === "Saved",
   });
 
   useEffect(() => {
