@@ -23,9 +23,12 @@ const HomePage = () => {
           content="Comparte, busca, comenta, guarda imágenes de todo tipo"
         />
         <meta name="og:type" content="website" />
-        <meta name="og:url" content="https://shame.com" />
+        <meta name="og:url" content="https://shame-sh.netlify.app" />
         <meta name="og:site_name" content="Shame" />
-        <meta name="og:image" content="https://shame.com/image.png" />
+        <meta
+          name="og:image"
+          content="https://shame-sh.netlify.app/favicon.png"
+        />
         <meta name="og:locale" content="es_ES" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@jerson100" />
@@ -35,7 +38,10 @@ const HomePage = () => {
           name="twitter:description"
           content="Comparte, busca, comenta y guarda imágenes de todo tipo"
         />
-        <meta name="twitter:image" content="favicon.png" />
+        <meta
+          name="twitter:image"
+          content="https://shame-sh.netlify.app/favicon.png"
+        />
       </Helmet>
       <PinsLayout pins={pins} savePin={savePin} deletePin={deletePin} />
     </>

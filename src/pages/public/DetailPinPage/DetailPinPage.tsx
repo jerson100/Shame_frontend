@@ -5,6 +5,7 @@ import { MdDownloadForOffline } from "react-icons/md";
 import Spinner from "../../../components/common/Spinner/Spinner";
 import { urlFor } from "../../../configs/sanity";
 import DetailComment from "./components/DetailComment";
+import { Helmet } from "react-helmet";
 
 const DetailPinPage = () => {
   const { idPin } = useParams();
@@ -40,6 +41,32 @@ const DetailPinPage = () => {
         </div>
       ) : (
         <article className="bg-white max-w-[1200px] mx-auto rounded-[32px] flex flex-col xl:flex-row w-full">
+          <Helmet>
+            <title>{pin.title} | Shame</title>
+            <meta name="description" content={pin.about} />
+            <meta name="robots" content="index, follow" />
+            <meta name="author" content="Jerson Omar Ramírez Ortiz" />
+            <meta name="keywords" content={pin.category} />
+            <meta name="og:title" content={`${pin.title} | Shame`} />
+            <meta name="og:description" content={pin.about} />
+            <meta name="og:type" content="website" />
+            <meta name="og:url" content="https://shame-sh.netlify.app" />
+            <meta name="og:site_name" content="Shame" />
+            <meta
+              name="og:image"
+              content="https://shame-sh.netlify.app/favicon.png"
+            />
+            <meta name="og:locale" content="es_ES" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@jerson100" />
+            <meta name="twitter:creator" content="@jerson100" />
+            <meta name="twitter:title" content={`${pin.title} | Shame`} />
+            <meta name="twitter:description" content={pin.about} />
+            <meta
+              name="twitter:image"
+              content="https://shame-sh.netlify.app/favicon.png"
+            />
+          </Helmet>
           <div className="flex justify-center items-center md:items-start flex-initial flex-grow">
             <img
               className="rounded-t-3xl rounded-b-lg"

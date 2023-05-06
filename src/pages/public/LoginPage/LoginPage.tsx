@@ -3,6 +3,7 @@ import shareVideo from "../../../assets/share.mp4";
 import logo from "../../../assets/logowhite.png";
 import jwt_decode from "jwt-decode";
 import useAuthContext from "../../../hooks/useAuthContext";
+import { Helmet } from "react-helmet";
 
 const LoginPage = () => {
   //   const [loading, setLoading] = useState(false);
@@ -36,6 +37,35 @@ const LoginPage = () => {
   };
   return (
     <div className="min-h-screen w-full">
+      <Helmet>
+        <title>Login | Shame</title>
+        <meta name="description" content="Login de Shame" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Jerson Omar Ramírez Ortiz" />
+        <meta
+          name="keywords"
+          content={`Login, Shame, pins, pinterest, react`}
+        />
+        <meta name="og:title" content={`Login | Shame`} />
+        <meta name="og:description" content={`Login de Shame`} />
+        <meta name="og:type" content="website" />
+        <meta name="og:url" content="https://shame-sh.netlify.app" />
+        <meta name="og:site_name" content="Shame" />
+        <meta
+          name="og:image"
+          content="https://shame-sh.netlify.app/favicon.png"
+        />
+        <meta name="og:locale" content="es_ES" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@jerson100" />
+        <meta name="twitter:creator" content="@jerson100" />
+        <meta name="twitter:title" content={`Login | Shame`} />
+        <meta name="twitter:description" content={`Login de Shame`} />
+        <meta
+          name="twitter:image"
+          content="https://shame-sh.netlify.app/favicon.png"
+        />
+      </Helmet>
       <div className="relative w-full h-full min-h-screen">
         <video
           className="w-full h-full object-cover min-h-screen"

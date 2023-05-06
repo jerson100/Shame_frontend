@@ -86,7 +86,7 @@ const UserProfilePage = () => {
           content={`Perfil de ${user.user} en Shame`}
         />
         <meta name="og:type" content="website" />
-        <meta name="og:url" content="https://shame.com" />
+        <meta name="og:url" content="https://shame-sh.netlify.app" />
         <meta name="og:site_name" content="Shame" />
         <meta name="og:image" content={user.image} />
         <meta name="og:locale" content="es_ES" />
