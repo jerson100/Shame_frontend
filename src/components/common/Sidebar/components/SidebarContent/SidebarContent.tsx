@@ -14,7 +14,7 @@ const isActiveStyle =
 
 const SidebarContent = ({ handleShowSidebar }: SidebarContentProps) => {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full sticky top-0 md:h-[100vh]">
       <div className="h-[50px] px-5 flex items-center shrink-0 md:h-[80px]">
         <Link to="/">
           <img

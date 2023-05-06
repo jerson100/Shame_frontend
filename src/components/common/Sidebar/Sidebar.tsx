@@ -21,7 +21,7 @@ const Sidebar = ({ handleShowSidebar, showSidebar }: SidebarProps) => {
       {(showSidebar || isDesktop) && (
         <>
           <motion.div
-            className={`fixed w-48 lg:w-60 h-screen border-r border-zinc-100 md:relative z-30 bg-white`}
+            className={`fixed w-48 lg:w-60 h-screen border-r border-zinc-100 md:relative z-30 bg-white md:h-[initial] md:min-h-[100vh] `}
             variants={SidebarVariants}
             initial="initial"
             animate="animate"
