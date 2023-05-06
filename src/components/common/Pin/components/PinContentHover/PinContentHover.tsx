@@ -40,6 +40,13 @@ const PinContentHover = ({
           >
             {save.length} Saved
           </button>
+        ) : !user ? (
+          <button
+            type="button"
+            className="bg-red-500 opacity-70 text-white font-bold px-5 py-1 text-base rounded-3xl outline-none cursor-[initial]"
+          >
+            {save ? save.length : 0} Saved
+          </button>
         ) : (
           <PinSaveButton
             numberSaves={save?.length || 0}

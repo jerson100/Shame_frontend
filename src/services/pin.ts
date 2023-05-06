@@ -5,7 +5,6 @@ import {
   EImageType,
   Pin,
   Save,
-  User,
 } from "../types";
 import { sanityClient } from "../configs/sanity";
 import { v4 as uuid } from "uuid";
