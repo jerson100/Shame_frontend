@@ -57,7 +57,10 @@ const UserAuthContextProvider = ({ children }: UserContextProviderProps) => {
   const login = useCallback(
     async (user: User, token: string): Promise<boolean> => {
       try {
-        await sanityClient.createIfNotExists(user);
+        await sanityClient.createIfNotExists({
+          ...user,
+          _type: "user",
+        });
         setUser(user);
         setIsLogged(true);
         setToken(token);

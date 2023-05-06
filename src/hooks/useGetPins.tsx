@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Pin, Save } from "../types";
 import PinService from "../services/pin";
 
@@ -19,32 +19,45 @@ const useGetPins = ({
 }: UseGetPinsProps) => {
   const [pins, setPins] = useState<Pin[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
+  const abortController = useRef<AbortController | null>(null);
   useEffect(() => {
-    const abortC = new AbortController();
+    abortController.current = new AbortController();
     const getApi = async () => {
       try {
         setLoading(true);
-        setError(null);
+        setError(false);
         setPins([]);
         const pines =
           mode === ModeFilterGetPins.ALL
-            ? await PinService.findALL(abortC.signal)
+            ? await PinService.findALL(abortController.current?.signal)
             : mode === ModeFilterGetPins.SEARCH
-            ? await PinService.search(searchText, abortC.signal)
-            : await PinService.findALLByCategory(searchText, abortC.signal);
+            ? await PinService.search(
+                searchText,
+                abortController.current?.signal
+              )
+            : await PinService.findALLByCategory(
+                searchText,
+                abortController.current?.signal
+              );
         setPins(pines);
       } catch (e) {
-        setError("Ocurrió un error al obtener los pines");
+        setError(true);
       } finally {
         setLoading(false);
       }
     };
     getApi();
     return () => {
-      abortC.abort();
+      abortController.current?.abort();
     };
   }, [searchText, mode]);
+
+  const cancel = useCallback(() => {
+    if (abortController.current) {
+      abortController.current.abort();
+    }
+  }, []);
 
   const savePin = useCallback(
     async (pinId: string, userId: string): Promise<Save | null> => {
@@ -78,7 +91,7 @@ const useGetPins = ({
     return deletedPin;
   }, []);
 
-  return { pins, setPins, loading, error, savePin, deletePin };
+  return { pins, setPins, loading, error, savePin, deletePin, cancel };
 };
 
 export default useGetPins;
