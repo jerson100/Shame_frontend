@@ -8,6 +8,7 @@ import {
   getToken,
   removeTokenLocalStorage,
 } from "../configs/token";
+import { googleLogout } from "@react-oauth/google";
 
 const UserAuthContext = createContext<AuthContext | null>(null);
 
@@ -78,6 +79,7 @@ const UserAuthContextProvider = ({ children }: UserContextProviderProps) => {
     setIsLogged(false);
     setToken(null);
     removeTokenLocalStorage();
+    googleLogout();
   }, []);
 
   return (
