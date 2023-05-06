@@ -88,7 +88,6 @@ const save = async (pinId: string, userId: string): Promise<Save | null> => {
         },
       ])
       .commit();
-    console.log(response);
     return {
       userId: userId,
       postedBy: {
@@ -176,7 +175,6 @@ const createComment = async ({
     .setIfMissing({ comments: [] })
     .insert("after", "comments[-1]", [newComment])
     .commit();
-  console.log(c);
   return {
     ...newComment,
     postedBy: {

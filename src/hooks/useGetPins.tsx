@@ -51,7 +51,6 @@ const useGetPins = (query: useGetPinsQueryProps) => {
         setPins((prevPins) => {
           return prevPins.map((pin) => {
             if (pin._id === pinId) {
-              console.log(pin.save, saved);
               return {
                 ...pin,
                 save: pin.save ? [...pin.save, saved] : [saved],

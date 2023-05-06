@@ -18,7 +18,6 @@ const PinSaveButton: FC<PinSaveButtonProps> = ({
     if (user) {
       setSaving(true);
       const saveP = await savePin(_id, user._id);
-      console.log(saveP);
       setSaving(false);
     }
   };
