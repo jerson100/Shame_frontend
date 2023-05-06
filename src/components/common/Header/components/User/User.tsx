@@ -3,6 +3,7 @@ import useAuthContext from "../../../../../hooks/useAuthContext";
 import { Link } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { Variants, motion } from "framer-motion";
+import { RiUser2Fill, RiSettings2Fill, RiLogoutBoxFill } from "react-icons/ri";
 import { User as IUser } from "../../../../../types";
 
 const User = () => {
@@ -76,30 +77,33 @@ const WrapperButtonUser = ({
           <li>
             <Link
               to={`/profile/${_id}`}
-              className="cursor-pointer p-3 flex hover:bg-gray-100"
+              className="cursor-pointer p-3 flex items-center hover:bg-gray-100 gap-2"
               onClick={() => setShow(false)}
             >
-              Profile
+              <RiUser2Fill />
+              <span>Profile</span>
             </Link>
           </li>
           <li>
             <Link
               to={`/configuration`}
-              className="cursor-pointer p-3 flex hover:bg-gray-100"
+              className="cursor-pointer p-3 flex items-center hover:bg-gray-100 gap-2"
               onClick={() => setShow(false)}
             >
-              Configuration
+              <RiSettings2Fill />
+              <span>Configuration</span>
             </Link>
           </li>
           <li>
             <button
-              className="p-3 w-full flex cursor-pointer hover:bg-gray-100"
+              className="w-full cursor-pointer p-3 flex items-center hover:bg-gray-100 gap-2"
               onClick={() => {
                 setShow(false);
                 logout();
               }}
             >
-              Logout
+              <RiLogoutBoxFill />
+              <span>Logout</span>
             </button>
           </li>
         </ul>
