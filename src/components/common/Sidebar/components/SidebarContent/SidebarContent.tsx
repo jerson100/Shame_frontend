@@ -30,6 +30,7 @@ const SidebarContent = ({ handleShowSidebar }: SidebarContentProps) => {
           className={({ isActive }) =>
             isActive ? isActiveStyle : isNotActiveStyle
           }
+          onClick={() => handleShowSidebar(false)}
         >
           <RiHomeFill />
           <span>Home</span>
